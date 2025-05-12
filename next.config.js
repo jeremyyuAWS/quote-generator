@@ -35,6 +35,10 @@ const nextConfig = {
   },
   // Use standalone output to optimize for deployment
   output: 'standalone',
+  // Add production optimizations
+  poweredByHeader: false,
+  reactStrictMode: true,
+  swcMinify: true,
 };
 
 module.exports = nextConfig;
