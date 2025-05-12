@@ -1,0 +1,40 @@
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  images: { unoptimized: true },
+  webpack: (config, { dev, isServer }) => {
+    // Apply development-specific optimizations
+    if (dev) {
+      // Disable cache in development to prevent ENOENT errors
+      config.cache = false;
+      
+      // More aggressive cache handling in development
+      if (config.watchOptions) {
+        config.watchOptions.ignored = ['**/node_modules/**', '**/.next/cache/**'];
+      } else {
+        config.watchOptions = {
+          ignored: ['**/node_modules/**', '**/.next/cache/**'],
+        };
+      }
+      
+      // Disable minimization in development to reduce memory usage
+      config.optimization = {
+        ...config.optimization,
+        minimize: false
+      };
+      
+      // Reduce parallel operations in development
+      if (config.infrastructureLogging) {
+        config.infrastructureLogging.level = 'error';
+      }
+    }
+    
+    return config;
+  },
+  // Use standalone output to optimize for deployment
+  output: 'standalone',
+};
+
+module.exports = nextConfig;
