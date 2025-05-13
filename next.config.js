@@ -34,6 +34,19 @@ const nextConfig = {
         config.infrastructureLogging.level = 'error';
       }
     }
+
+    // Add specific handling for problematic modules
+    config.module.rules.push({
+      test: /\.(js|jsx|ts|tsx)$/,
+      exclude: /node_modules/,
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: ['next/babel'],
+          plugins: ['@babel/plugin-transform-runtime']
+        }
+      }
+    });
     
     return config;
   },
@@ -42,7 +55,7 @@ const nextConfig = {
   // Add production optimizations
   poweredByHeader: false,
   reactStrictMode: true,
-  swcMinify: true,
+  swcMinify: false, // Disable SWC minification to avoid potential issues
 };
 
 module.exports = nextConfig;
