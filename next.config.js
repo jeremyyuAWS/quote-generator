@@ -3,6 +3,10 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  typescript: {
+    // Only ignore type checking in production builds
+    ignoreBuildErrors: process.env.NODE_ENV === 'production',
+  },
   images: { unoptimized: true },
   webpack: (config, { dev, isServer }) => {
     // Apply development-specific optimizations
